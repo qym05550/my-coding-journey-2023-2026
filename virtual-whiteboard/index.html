@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>سبورتي البيضا 💖</title>
+    <style>
+        body {
+            margin: 0;
+            background: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Tahoma', sans-serif;
+            direction: rtl;
+        }
+        
+        h1 {
+            margin: 20px;
+        }
+        
+        canvas {
+            border: 2px solid #333;
+            background-color: white;
+            cursor: crosshair;
+        }
+        
+        .tools {
+            margin: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎨 سبورتي البيضاء </h1>
+
+    <div class="tools">
+        <label for="colorPicker">اللون:</label>
+        <input type="color" id="colorPicker" value="#000000" />
+
+        <label for="brushSize">السُمك:</label>
+        <input type="range" id="brushSize" min="1" max="20" value="3" />
+
+        <button onclick="clearCanvas()">مسح الكل 🧽</button>
+    </div>
+
+    <canvas id="whiteboard" width="800" height="500"></canvas>
+
+    <script>
+        const canvas = document.getElementById("whiteboard");
+        const ctx = canvas.getContext("2d");
+        let painting = false;
+
+        function startPosition(e) {
+            painting = true;
+            draw(e);
+        }
+
+        function endPosition() {
+            painting = false;
+            ctx.beginPath();
+        }
+
+        function draw(e) {
+            if (!painting) return;
+            ctx.lineWidth = document.getElementById("brushSize").value;
+            ctx.lineCap = "round";
+            ctx.strokeStyle = document.getElementById("colorPicker").value;
+
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        canvas.addEventListener("mousedown", startPosition);
+        canvas.addEventListener("mouseup", endPosition);
+        canvas.addEventListener("mousemove", draw);
+        canvas.addEventListener("mouseleave", endPosition);
+    </script>
+</body>
+
+</html>
