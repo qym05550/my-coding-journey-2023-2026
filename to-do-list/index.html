@@ -1,0 +1,144 @@
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
+    
+    #task-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    #task-list li {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        transition: background-color 0.3s;
+    }
+    
+    #task-list li:hover {
+        background-color: #f9f9f9;
+    }
+    
+    #task-list li input[type="checkbox"] {
+        margin-right: 10px;
+    }
+    
+    #task-list li span {
+        font-weight: bold;
+    }
+    
+    #task-list li button {
+        float: right;
+        background-color: #ff0000;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        font-size: 12px;
+        cursor: pointer;
+    }
+    
+    #task-list li button:hover {
+        background-color: #cc0000;
+    }
+    
+    #new-task {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+    }
+    
+    #add-task {
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    
+    #add-task:hover {
+        background-color: #3e8e41;
+    }
+    /* Task priority colors */
+    
+    .high-priority {
+        background-color: #ff3737;
+        /* Red */
+    }
+    
+    .medium-priority {
+        background-color: #8bc34a;
+        /* Medium Green */
+    }
+    
+    .low-priority {
+        background-color: #c6efce;
+        /* Light Green */
+    }
+    
+    .critical-priority {
+        background-color: #ff0000;
+        /* Critical Red */
+    }
+    /* Task status colors */
+    
+    .not-started {
+        background-color: #cccccc;
+        /* Gray */
+    }
+    
+    .in-progress {
+        background-color: #ffff66;
+        /* Yellow */
+    }
+    
+    .completed {
+        background-color: #00ff00;
+        /* Green */
+    }
+</style>
+
+<h1>To Do List</h1>
+
+<ul id="task-list">
+    <!-- tasks will be added here -->
+</ul>
+
+<!-- Add new task -->
+<form>
+    <input type="text" id="new-task" placeholder="Add new task">
+    <input type="date" id="due-date" placeholder="Due Date">
+    <textarea id="task-description" placeholder="Task Description"></textarea>
+    <select id="category">
+      <option value="Work">Work</option>
+      <option value="Personal">Personal</option>
+      <option value="Shopping">Shopping</option>
+    </select>
+    <select id="priority">
+      <option value="high">High Priority</option>
+      <option value="medium">Medium Priority</option>
+      <option value="low">Low Priority</option>
+      <option value="critical">Critical Priority</option>
+    </select>
+    <select id="status">
+      <option value="not-started">Not Started</option>
+      <option value="in-progress">In Progress</option>
+      <option value="completed">Completed</option>
+    </select>
+    <button id="add-task" onclick="addTask(event)">Add</button>
+</form>
+
+<script>
+    function addTask(event) {
+        event.preventDefault();
+        var taskInput = document.getElementById("new-task");
+        var dueDateInput = document.getElementById("due-date");
+        var taskDescriptionInput = document.getElementById("task-description");
+        var categorySelect = document.getElementById("category");
+        var prioritySelect = document.getElementById("priority");
+        var statusSelect = document.getElementById("status");
+        var taskList = document.getElementById("task-list");
+        var newTask = document.createElement("li");
+        newTask.className = `${prioritySelect.value}-priority ${statusSelect.value}`;
+        newTask.innerHTML =
