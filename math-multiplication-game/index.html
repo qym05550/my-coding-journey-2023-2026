@@ -1,0 +1,169 @@
+<html lang="ar">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+
+<body class="flex items-center justify-center h-screen bg-cover bg-center" style="background-image: url('https://placehold.co/1920x1080');">
+    <!-- الصفحة الرئيسية -->
+    <div id="home-page" role="main" class="max-w-lg w-11/12 bg-white bg-opacity-90 p-6 rounded-lg shadow-lg text-center">
+        <h1 class="text-3xl font-bold text-blue-600 mb-4">سفاري الرياضيات</h1>
+        <p class="text-xl mb-2">الطالبة: <span class="font-semibold">شهد البعيجان</span></p>
+        <p class="text-xl mb-6">المعلمة: <span class="font-semibold">ابتهال الصياح</span></p>
+        <button class="bg-green-500 text-white p-4 rounded-lg text-xl font-bold" id="start-game-btn" aria-label="ابدأ اللعب">ابدأ اللعب</button>
+    </div>
+
+    <!-- صفحة اللعب -->
+    <div class="hidden max-w-lg w-11/12 bg-white bg-opacity-90 p-6 rounded-lg shadow-lg text-center" id="game-page" role="main">
+        <h1 class="text-3xl font-bold text-blue-600 mb-4">سفاري الرياضيات</h1>
+        <div class="mb-4">
+            <label class="block text-lg font-semibold text-blue-500 mb-2" for="table-select">اختاري جدول الضرب:</label>
+            <select class="p-2 rounded border border-blue-300" id="table-select" aria-label="اختيار جدول الضرب">
+                <option value="1">جدول 1</option>
+                <option value="2">جدول 2</option>
+                <option value="3">جدول 3</option>
+                <option value="4">جدول 4</option>
+                <option value="5">جدول 5</option>
+                <option value="6">جدول 6</option>
+                <option value="7">جدول 7</option>
+                <option value="8">جدول 8</option>
+                <option value="9">جدول 9</option>
+                <option value="10">جدول 10</option>
+                <option value="random">عشوائي</option>
+            </select>
+        </div>
+        <div class="mb-4">
+            <p class="text-2xl font-semibold text-blue-700" id="question">2 x 3 = ؟</p>
+        </div>
+        <div class="mb-4">
+            <input type="number" id="answer-input" class="p-2 rounded border border-blue-300 w-full" placeholder="أدخل إجابتك هنا" aria-label="إدخال الإجابة">
+        </div>
+        <div class="flex justify-center gap-4 mb-4">
+            <button class="bg-green-500 text-white p-4 rounded-lg text-xl font-bold" id="submit-btn" aria-label="إرسال الإجابة">إرسال الإجابة</button>
+            <button class="bg-blue-500 text-white p-4 rounded-lg text-xl font-bold" id="change-question-btn" aria-label="تغيير السؤال">تغيير السؤال</button>
+        </div>
+        <div class="mt-4 text-xl font-semibold" id="result" aria-live="polite"></div>
+        <div class="mt-6">
+            <p>النقاط: <span class="text-xl font-bold text-green-600" id="score">0</span></p>
+            <p>عدد الأسئلة المحلولة: <span class="text-xl font-bold text-green-600" id="questions-solved">0</span></p>
+        </div>
+        <div class="mt-6">
+            <p>الوقت المتبقي: <span class="text-xl font-bold text-red-600" id="timer">60</span> ثانية</p>
+        </div>
+        <button class="bg-blue-500 text-white p-4 rounded-lg text-xl font-bold mt-6" id="back-to-home" aria-label="العودة">العودة</button>
+    </div>
+
+    <script>
+        const homePage = document.getElementById('home-page');
+        const gamePage = document.getElementById('game-page');
+        const startGameBtn = document.getElementById('start-game-btn');
+        const backToHomeBtn = document.getElementById('back-to-home');
+        const tableSelect = document.getElementById('table-select');
+        const questionElement = document.getElementById('question');
+        const answerInput = document.getElementById('answer-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const changeQuestionBtn = document.getElementById('change-question-btn');
+        const resultElement = document.getElementById('result');
+        const scoreElement = document.getElementById('score');
+        const questionsSolvedElement = document.getElementById('questions-solved');
+        const timerElement = document.getElementById('timer');
+
+        let correctAnswer;
+        let score = 0;
+        let questionsSolved = 0;
+        let timer;
+        let timeLeft = 60;
+
+        startGameBtn.addEventListener('click', () => {
+            homePage.classList.add('hidden');
+            gamePage.classList.remove('hidden');
+            generateQuestion();
+            startTimer();
+        });
+
+        backToHomeBtn.addEventListener('click', () => {
+            gamePage.classList.add('hidden');
+            homePage.classList.remove('hidden');
+            resetGame();
+        });
+
+        function generateQuestion() {
+            const table = tableSelect.value;
+            let num1, num2;
+
+            if (table === 'random') {
+                num1 = Math.floor(Math.random() * 11);
+                num2 = Math.floor(Math.random() * 11);
+            } else {
+                num1 = parseInt(table);
+                num2 = Math.floor(Math.random() * 11);
+            }
+
+            correctAnswer = num1 * num2;
+            questionElement.textContent = `${num1} x ${num2} = ؟`;
+            resultElement.textContent = '';
+            answerInput.value = '';
+            resetTimer();
+        }
+
+        function checkAnswer() {
+            const userAnswer = parseInt(answerInput.value);
+            if (userAnswer === correctAnswer) {
+                resultElement.textContent = 'صحيح! 🎉';
+                score++;
+                questionsSolved++;
+                scoreElement.textContent = score;
+                questionsSolvedElement.textContent = questionsSolved;
+            } else {
+                resultElement.textContent = `خطأ! الإجابة الصحيحة هي ${correctAnswer}.`;
+                questionsSolved++;
+                questionsSolvedElement.textContent = questionsSolved;
+            }
+            generateQuestion();
+        }
+
+        function resetGame() {
+            score = 0;
+            questionsSolved = 0;
+            scoreElement.textContent = score;
+            questionsSolvedElement.textContent = questionsSolved;
+            clearInterval(timer);
+            timeLeft = 60;
+            timerElement.textContent = timeLeft;
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    resultElement.textContent = 'انتهى الوقت! ⏰';
+                    setTimeout(() => {
+                        resultElement.textContent = '';
+                        gamePage.classList.add('hidden');
+                        homePage.classList.remove('hidden');
+                        resetGame();
+                    }, 2000);
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            timeLeft = 60;
+            timerElement.textContent = timeLeft;
+            startTimer();
+        }
+
+        submitBtn.addEventListener('click', checkAnswer);
+        changeQuestionBtn.addEventListener('click', generateQuestion);
+    </script>
+</body>
+
+</html>
