@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Personal Assistant</title>
+</head>
+
+<body>
+    <h1>Personal Assistant</h1>
+    <form action="PersonalAssistantServlet" method="post">
+        <label for="input">Enter your plans and tasks for the day:</label>
+        <textarea id="input" name="input" cols="30" rows="10"></textarea>
+        <button type="submit">Get Recommended Plan</button>
+    </form>
+    <div id="output"></div>
+
+    <script>
+        const outputDiv = document.getElementById("output");
+        const form = document.getElementById("form");
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const input = document.getElementById("input").value;
+            fetch("PersonalAssistantServlet", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        input: input
+                    }),
+                })
+                .then((response) => response.text())
+                .then((output) => {
+                    outputDiv.innerHTML = output;
+                });
+        });
+    </script>
+</body>
+
+</html>
