@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مركز الأمن السيبراني التفاعلي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="cyber_style.css">
+</head>
+<body>
+  <header class="main-header">
+    <div class="nav-container">
+      <div class="logo">
+        <span class="logo-mark">CY</span>
+        <div class="logo-text">
+          <span class="logo-title">مركز الأمن السيبراني</span>
+          <span class="logo-subtitle">تعلم • احمِ نفسك • طوّر وعيك</span>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <a href="#home">الرئيسية</a>
+        <a href="#quiz">الاختبار</a>
+        <a href="#gen">مولد كلمة السر</a>
+        <a href="#check">فحص الكلمة</a>
+        <a href="#tips">النصائح</a>
+      </nav>
+    </div>
+
+    <div class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">طوّر وعيك بالأمن السيبراني</h1>
+        <p class="hero-lead">
+          تجربة تفاعلية لاختبار معرفتك، إنشاء كلمات سر قوية، وتعلم أفضل ممارسات الحماية الرقمية.
+        </p>
+        <div class="hero-actions">
+          <a href="#quiz" class="btn btn-primary">ابدأ الاختبار الآن</a>
+          <a href="#tips" class="btn btn-ghost">استكشف النصائح</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-orbit hero-orbit-1"></div>
+        <div class="hero-orbit hero-orbit-2"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-shield">
+          <span class="hero-lock">🔒</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="section-block">
+      <h2 class="section-title">أهلاً بك في مركز الأمن السيبراني</h2>
+      <p class="section-description">
+        اكتشف أدوات تفاعلية لتعلم وحماية نفسك على الإنترنت، عبر تمارين بسيطة وممتعة.
+      </p>
+    </section>
+
+    <section id="quiz" class="section-block">
+      <div class="section-header">
+        <h2 class="section-title">اختبار الوعي الأمني</h2>
+        <p class="section-subtitle">أجب عن مجموعة أسئلة سريعة لتتعرف على مستوى وعيك بالأمن السيبراني.</p>
+      </div>
+      <div class="card quiz-card">
+        <div class="quiz-meta">
+          <span id="questionCounter" class="quiz-counter"></span>
+          <div class="quiz-progress">
+            <div id="quizProgressBar" class="quiz-progress-bar"></div>
+          </div>
+        </div>
+        <p id="questionText" class="quiz-question"></p>
+        <div id="quizButtons" class="quiz-options"></div>
+        <p id="quizResult" class="quiz-result"></p>
+        <p id="quizScore" class="quiz-score"></p>
+        <button id="restartBtn" class="btn btn-primary quiz-restart" style="display:none;" onclick="restartQuiz()">إعادة الاختبار</button>
+      </div>
+    </section>
+
+    <section id="gen" class="section-block">
+      <div class="section-header">
+        <h2 class="section-title">مولد كلمة السر</h2>
+        <p class="section-subtitle">أنشئ كلمات سر قوية وعشوائية وفق معاييرك الخاصة.</p>
+      </div>
+      <div class="card">
+        <div id="genOptions" class="gen-options">
+          <label class="field-group">الطول
+            <input type="number" id="passLength" class="input-field" value="12" min="6" max="32">
+          </label>
+          <label class="field-checkbox"><input type="checkbox" id="upper" checked> أحرف كبيرة</label>
+          <label class="field-checkbox"><input type="checkbox" id="lower" checked> أحرف صغيرة</label>
+          <label class="field-checkbox"><input type="checkbox" id="numbers" checked> أرقام</label>
+          <label class="field-checkbox"><input type="checkbox" id="symbols" checked> رموز</label>
+        </div>
+        <button class="btn btn-primary" onclick="generate()">توليد كلمة سر</button>
+        <div id="genOut" class="gen-output"></div>
+        <p class="helper-text">تذكّر: لا تشارك كلمة السر مع أي شخص، وجرّب استخدام مدير كلمات سر لحفظها بأمان.</p>
+      </div>
+    </section>
+
+    <section id="check" class="section-block">
+      <div class="section-header">
+        <h2 class="section-title">فحص قوة كلمة السر</h2>
+        <p class="section-subtitle">اختبر كلمة السر الحالية وتعرّف على مدى قوتها وكيف يمكنك تحسينها.</p>
+      </div>
+      <div class="card">
+        <label class="field-group">
+          <span>كلمة السر</span>
+          <input id="passInput" class="input-field" type="password" placeholder="اكتب كلمة السر هنا">
+        </label>
+        <button class="btn btn-primary" onclick="checkPass()">فحص الكلمة</button>
+        <div class="strength-meter">
+          <div id="strengthBar" class="strength-bar"></div>
+        </div>
+        <p id="checkOut" class="strength-text"></p>
+      </div>
+    </section>
+
+    <section id="tips" class="section-block">
+      <div class="section-header">
+        <h2 class="section-title">نصائح الأمن السيبراني</h2>
+        <p class="section-subtitle">نصائح سريعة تساعدك على حماية حساباتك وأجهزتك من الاختراق.</p>
+      </div>
+      <div class="tips-grid" id="tipBox"></div>
+      <button class="btn btn-ghost" onclick="newTip()">تحديث النصائح</button>
+    </section>
+  </main>
+
+  <footer class="main-footer">
+    <p>عمل الطالبتان: هديل البعيجان - فاطمة السالم</p>
+    <p class="footer-note">مشروع توعوي في مجال الأمن السيبراني لرفع مستوى الوعي الرقمي للمستخدمين.</p>
+  </footer>
+
+  <script src="cyber_script.js"></script>
+</body>
+</html>
