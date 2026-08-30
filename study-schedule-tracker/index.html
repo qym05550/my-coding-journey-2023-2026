@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جدول الدراسة وجدول الاختبارات</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        
+        .table-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            width: 100%;
+        }
+        
+        table {
+            width: 45%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 1em;
+            min-width: 200px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        table thead {
+            background-color: #009879;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        
+        table th,
+        table td {
+            padding: 12px 15px;
+            text-align: center;
+        }
+        
+        table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+        
+        table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+        
+        table tbody tr:last-of-type {
+            border-bottom: 2px solid #009879;
+        }
+        
+        .complete {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .incomplete {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            border: none;
+            cursor: pointer;
+            color: white;
+        }
+        
+        .complete-button {
+            background-color: #4CAF50;
+        }
+        
+        .incomplete-button {
+            background-color: #f44336;
+        }
+        
+        .delete-button {
+            background-color: #d9534f;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>اليوم</th>
+                    <th>المهام</th>
+                    <th> التقييم</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>السبت</td>
+                    <td id="saturdayTask">الحاسوب (صح وخطأ)، علوم</td>
+                    <td>
+                        <button class="complete-button" onclick="markComplete('saturdayTask')">تم</button>
+                        <button class="incomplete-button" onclick="markIncomplete('saturdayTask')">لم يتم</button>
+                        <button class="delete-button" onclick="clearMark('saturdayTask')">مسح</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>الأحد</td>
+                    <td id="sundayTask">اجتماعيات، لغتي الوحده الاولى</td>
+                    <td>
+                        <button class="complete-button" onclick="markComplete('sundayTask')">تم</button>
+                        <button class="incomplete-button" onclick="markIncomplete('sundayTask')">لم يتم</button>
+                        <button class="delete-button" onclick="clearMark('sundayTask')">مسح</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>الاثنين</td>
+                    <td id="mondayTask">اجتماعيات (الوحدة 2 + 3)</td>
+                    <td>
+                        <button class="complete-button" onclick="markComplete('mondayTask')">تم</button>
+                        <button class="incomplete-button" onclick="markIncomplete('mondayTask')">لم يتم</button>
+                        <button class="delete-button" onclick="clearMark('mondayTask')">مسح</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>الثلاثاء</td>
+                    <td id="tuesdayTask">اللغة العربية (الوحدة 2)، حاسب</td>
+                    <td>
+                        <button class="complete-button" onclick="markComplete('tuesdayTask')">تم</button>
+                        <button class="incomplete-button" onclick="markIncomplete('tuesdayTask')">لم يتم</button>
+                        <button class="delete-button" onclick="clearMark('tuesdayTask')">مسح</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>الأربعاء</td>
+                    <td id="wednesdayTask">رياضيات , مراجعه اجتماعيات او حاسب</td>
+                    <td>
+                        <button class="complete-button" onclick="markComplete('wednesdayTask')">تم</button>
+                        <button class="incomplete-button" onclick="markIncomplete('wednesdayTask')">لم يتم</button>
+                        <button class="delete-button" onclick="clearMark('wednesdayTask')">مسح</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>الخميس</td>
+                    <td id="thursdayTask">توحيد, مراجعه لغتي</td>
+                    <td>
+                        <button class="complete-button" onclick="markComplete('thursdayTask')">تم</button>
+                        <button class="incomplete-button" onclick="markIncomplete('thursdayTask')">لم يتم</button>
+                        <button class="delete-button" onclick="clearMark('thursdayTask')">مسح</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>الجمعة</td>
+                    <td id="fridayTask">حديث</td>
+                    <td>
+                        <button class="complete-button" onclick="markComplete('fridayTask')">تم</button>
+                        <button class="incomplete-button" onclick="markIncomplete('fridayTask')">لم يتم</button>
+                        <button class="delete-button" onclick="clearMark('fridayTask')">مسح</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>السبت</td>
+                    <td id="newSaturdayTask">, رياضيات, فقه</td>
+                    <td>
+                        <button class="complete-button" onclick="markComplete('newSaturdayTask')">تم</button>
+                        <button class="incomplete-button" onclick="markIncomplete('newSaturdayTask')">لم يتم</button>
+                        <button class="delete-button" onclick="clearMark('newSaturdayTask')">مسح</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>الأحد</td>
+                    <td id="SundayTask">تفسير، مراجعة انجليزي</td>
+                    <td>
+                        <button class="complete-button" onclick="markComplete('newSundayTask')">تم</button>
+                        <button class="incomplete-button" onclick="markIncomplete('newSundayTask')">لم يتم</button>
+                        <button class="delete-button" onclick="clearMark('newSundayTask')">مسح</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>الاثنين</td>
+                    <td id="newMondayTask">مراجعة اختبار أول يوم,علوم</td>
+                    <td>
+                        <button class="complete-button" onclick="markComplete('newMondayTask')">تم</button>
+                        <button class="incomplete-button" onclick="markIncomplete('newMondayTask')">لم يتم</button>
+                        <button class="delete-button" onclick="clearMark('newMondayTask')">مسح</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>اليوم</th>
+                    <th>المادة</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td>الثلاثاء</td>
+                    <td></td>
+                    <td>
+
+                </tr>
+                <tr>
+                    <td>الاربعاء</td>
+                    <td> </td>
+                    <td>
+
+                </tr>
+                <tr>
+                    <td>الخميس</td>
+                    <tr>
+                        <td> الاحد </td>
+                        <td> </td>
+                        <td>
+                    </tr>
+                    <tr>
+                        <td> الاثنين </td>
+                        <td> </td>
+                        <td>
+                    </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function markComplete(id) {
+            var task = document.getElementById(id);
+            task.classList.remove("incomplete");
+            task.classList.add("complete");
+        }
+
+        function markIncomplete(id) {
+            var task = document.getElementById(id);
+            task.classList.remove("complete");
+            task.classList.add("incomplete");
+        }
+
+        function clearMark(id) {
+            var task = document.getElementById(id);
+            task.classList.remove("complete");
+            task.classList.remove("incomplete");
+        }
+    </script>
+
+</body>
+
+</html>
