@@ -1,0 +1,139 @@
+<!-- Tic Tac Toe Game in HTML, CSS, and JavaScript -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tic Tac Toe</title>
+    <style>
+        /* Add some basic styling to make the game look nicer */
+        
+        body {
+            text-align: center;
+        }
+        
+        #game-options {
+            margin-bottom: 20px;
+        }
+        
+        #game-options button {
+            margin: 10px;
+        }
+        
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        
+        td {
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+            text-align: center;
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Tic Tac Toe</h1>
+    <div id="game-options">
+        <button onclick="playWithFriend()">Play with a Friend</button>
+        <button onclick="playWithComputer()">Play with the Computer</button>
+    </div>
+
+    <div id="computer-level" style="display: none;">
+        <p>Choose a difficulty level:</p>
+        <button onclick="setDifficulty('easy')">Easy</button>
+        <button onclick="setDifficulty('medium')">Medium</button>
+        <button onclick="setDifficulty('hard')">Hard</button>
+    </div>
+
+    <table id="game-board" style="display: none;">
+        <tr>
+            <td id="cell-0" onclick="makeMove(this)"></td>
+            <td id="cell-1" onclick="makeMove(this)"></td>
+            <td id="cell-2" onclick="makeMove(this)"></td>
+        </tr>
+        <tr>
+            <td id="cell-3" onclick="makeMove(this)"></td>
+            <td id="cell-4" onclick="makeMove(this)"></td>
+            <td id="cell-5" onclick="makeMove(this)"></td>
+        </tr>
+        <tr>
+            <td id="cell-6" onclick="makeMove(this)"></td>
+            <td id="cell-7" onclick="makeMove(this)"></td>
+            <td id="cell-8" onclick="makeMove(this)"></td>
+        </tr>
+    </table>
+
+    <p id="game-status"></p>
+
+    <script>
+        let currentPlayer = "X";
+        let gameBoard = [];
+        let gameOver = false;
+        let playWithComputerMode = false;
+        let difficultyLevel = "medium";
+
+        // Initialize the game board
+        for (let i = 0; i < 9; i++) {
+            gameBoard.push("");
+        }
+
+        // Play with a friend
+        function playWithFriend() {
+            document.getElementById("game-options").style.display = "none";
+            document.getElementById("game-board").style.display = "table";
+        }
+
+        // Play with the computer
+        function playWithComputer() {
+            document.getElementById("game-options").style.display = "none";
+            document.getElementById("computer-level").style.display = "block";
+            playWithComputerMode = true;
+        }
+
+        // Set the difficulty level
+        function setDifficulty(level) {
+            difficultyLevel = level;
+            document.getElementById("computer-level").style.display = "none";
+            document.getElementById("game-board").style.display = "table";
+        }
+
+        // Make a move on the game board
+        function makeMove(cell) {
+            if (gameOver) return;
+            if (cell.textContent !== "") return;
+            cell.textContent = currentPlayer;
+            gameBoard[getCellIndex(cell)] = currentPlayer;
+            checkForWin();
+            if (playWithComputerMode) {
+                computerMove();
+            } else {
+                currentPlayer = currentPlayer === "X" ? "O" : "X";
+            }
+        }
+
+        // Get the index of a cell on the game board
+        function getCellIndex(cell) {
+            return parseInt(cell.id.split("-")[1]);
+        }
+
+        // Check for a win
+        function checkForWin() {
+            const winConditions = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+            for (let i = 0; i < winConditions.length; i++) {
+                const condition = winConditions[i];
+                if (gameBoard[condition[0]] !== "" &&
+                    gameBoard[condition[0]] === gameBoard[condition[1]] &&
+                    gameBoard[condition[0]]
